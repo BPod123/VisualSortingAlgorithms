@@ -1,0 +1,7 @@
+Num Points= 500
+
+Pane Height= 300
+
+Pane Width= 300
+
+Pause Length= 200
