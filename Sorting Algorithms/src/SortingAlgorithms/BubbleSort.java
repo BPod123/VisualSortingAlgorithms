@@ -1,15 +1,11 @@
 package SortingAlgorithms;
 
-import Application.SortApplication;
-import SortPane.SortPane;
-
-import static Application.SortApplication.waitTime;
+import javafx.scene.paint.Color;
 
 public class BubbleSort extends SortingAlgorithm {
     public BubbleSort() {
+        super(1);
     }
-
-
 
     @Override
     public String getTitle() {
@@ -18,17 +14,13 @@ public class BubbleSort extends SortingAlgorithm {
 
     @Override
     public void run() {
-       // try {
-            for (int k = getData().length-1; k >0; k--) {
-                selectPoint(k);
-                for (int i = k; i >=0; i--) {
-                    if (getPane().compare(i, k) > 0) // data[i] > data[k]
-                        getPane().swap(i, k);
-                    //Thread.sleep(waitTime);
-                    selectPoint(i);
-                }
-                selectPoint(k);
+        for (int k = getData().length-1; k > 0; k--) {
+            for (int i = 0; i < k; i++) {
+                if (compare(i, i + 1) > 0)
+                    swap(i, i + 1);
             }
-        //} catch (InterruptedException ex) {}
+            selectPoint(k, Color.GREEN);
+        }
+        selectPoint(0, Color.GREEN);
     }
 }

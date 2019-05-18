@@ -1,16 +1,17 @@
 package SortingAlgorithms;
 
 
+import javafx.scene.paint.Color;
+
 import java.util.Arrays;
 
 public class QuickSort extends SortingAlgorithm {
     public QuickSort() {
+        super(1);
     }
 
     public String getTitle() {
-        return "Quick Sort\n" +
-                "Comparisons:\t" + getComparasons() + "\n" +
-                "Swaps:\t" + getSwaps() + "\n\n";
+        return "Quick Sort";
     }
 
     @Override
@@ -21,10 +22,13 @@ public class QuickSort extends SortingAlgorithm {
     }
 
     public void sort(int start, int end) {
-        if(end == 2 || end-start == 2||end-start<2){
+        //put largest,
+
+        if(end-start == 2||end-start<2){
             if(compare(start, end-1)>0)
                 swap(start, end-1);
-            //updateTitle();
+            getPane().selectPoint(start, Color.GREEN);
+            getPane().selectPoint(end-1, Color.GREEN);
             return;
         }
 
@@ -37,47 +41,38 @@ public class QuickSort extends SortingAlgorithm {
             if(compare(start, mid)>0)
                 swap(start, mid);
         }
+        swap(mid, end-1);
+
         // Sort
-
         boolean leftFound = false, rightFound = false;
-        int left = mid-1, right = mid+1;
-            boolean needRepeat = false;
-            while(!needRepeat) {
-                needRepeat = false;
-                while (left > start && right < end - 1) {
-                    // Find left
-                    while (left > start)
-                        if (compare(left, mid) > 0) {
-                            needRepeat = true;
+        int left, right, swapL = -1, swapR = -1;
+                for(left = start, right = end-2; true;){
+                    if(leftFound||compare(left, end-1)>0) {// Find left
+                        if(!leftFound) {
+                            swapL = left;
+                        }
+                        leftFound = true;
+                    }
+                    else
+                        left++;
+                    if(rightFound||compare(right, end-1)<0) { // findRight
+                        if(!rightFound)
+                            swapR = right;
+                        rightFound = true;
+                    }
+                    else right--;
+                    if(leftFound && rightFound) {
+                        if(swapL>swapR)
                             break;
-                        } else
-                            left--;
-                        // find right
-                    while (right < end-1)
-                        if (compare(right, mid) < 0) {
-                            needRepeat = true;
-                            break;
-                        } else
-                            right++;
-                    if (left > start && right < end - 1)
-                        swap(left, right);
+                        swap(swapL, swapR);
+                        leftFound = false;
+                        rightFound = false;
+                    }
                 }
-            }
+                swap(swapL, end-1);
+                    getPane().selectPoint(swapL, Color.GREEN);
+                sort(start, swapL);
+                sort(swapL+1, end);
 
-        if(right<end-1) {
-            System.out.println("Right is less than end");
-            swap(right++, end-1);
-        }
-        if(left>start) {
-            System.out.println("Left is greater than start");
-            swap(left--, start);
-        }
-        swap(end-1, mid);
-        selectPoint(mid);
-
-        if(mid-start>1)
-            sort(start, mid-1);
-        if(end-mid+1>1)
-            sort(mid+1, end);
     }
 }
