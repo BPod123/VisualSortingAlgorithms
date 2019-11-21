@@ -9,19 +9,24 @@ public class CocktailShakerSort extends SortingAlgorithm {
 
     @Override
     public void run(){
-        for(int l = 0, b = getData().length-1, min, max, i; l<b;){
-            for(i = l, max = l; i<=b; i++){
-                if(compare(i,max)>0)
-                    max = i;
+        int l = 0, r = getData().length - 1;
+        while (l < r) {
+            for (int i = l; i < r; i++) {
+                int n = compare(i, i + 1);
+                if (n > 0) {
+                    swap(i, i + 1);
+                }
             }
-            swap(max, b);
-            selectPoint(b--, Color.GREEN);
-            for(i = b, min = b; i>=l; i--){
-                if(compare(i, min)<0)
-                    min = i;
+            selectPoint(r, Color.GREEN);
+            r--;
+            for (int i = r; i > l; i--) {
+                int n = compare(i, i - 1);
+                if (n < 0) {
+                    swap(i, i - 1);
+                }
             }
-            swap(min, l);
-            selectPoint(l++, Color.GREEN);
+            selectPoint(l, Color.GREEN);
+            l++;
         }
         updateAndColorAllIndecies(Color.GREEN, 0);
     }
